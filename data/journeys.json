@@ -1,0 +1,15 @@
+{
+    "breathing-basics": {
+        "id": "journey-1-completed",
+        "name": "رحلة التنفس",
+        "description": "تعلم أساسيات التنفس العميق للتحكم في القلق.",
+        "quests": [
+            {
+                "id": "quest1",
+                "name": "أول نفس",
+                "description": "أكمل تمرين التنفس الأول.",
+                "xp": 10
+            }
+        ]
+    }
+}

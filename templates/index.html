@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imma - رفيقك النفسي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="logo-area">
+                <i class="fas fa-brain"></i>
+                <h1>Imma</h1>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-target="chat-section">
+                    <i class="fas fa-comments"></i>
+                    <span>المحادثة</span>
+                </a>
+                <a href="#" class="nav-item" data-target="exercises-section">
+                    <i class="fas fa-spa"></i>
+                    <span>تمارين</span>
+                </a>
+                <a href="#" class="nav-item" data-target="hope-jar-section">
+                    <i class="fas fa-jar"></i>
+                    <span>جرة الأمل</span>
+                </a>
+                <a href="#" class="nav-item" data-target="calm-room-section">
+                    <i class="fas fa-cloud-moon"></i>
+                    <span>غرفة الهدوء</span>
+                </a>
+                <a href="#" class="nav-item" data-target="burner-section">
+                    <i class="fas fa-fire"></i>
+                    <span>محارق الهموم</span>
+                </a>
+                <a href="#" class="nav-item" data-target="progress-section">
+                    <i class="fas fa-chart-line"></i>
+                    <span>تقدمي</span>
+                </a>
+                <a href="#" class="nav-item" data-target="resources-section">
+                    <i class="fas fa-book-open"></i>
+                    <span>المصادر</span>
+                </a>
+            </nav>
+            <div class="user-profile-mini">
+                <div class="avatar">👤</div>
+                <div class="info">
+                    <span id="username-display">زائر</span>
+                    <small id="streak-display">0 يوم تتابع</small>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button id="menu-toggle"><i class="fas fa-bars"></i></button>
+                <h2>Imma</h2>
+                <div class="header-actions">
+                    <button id="daily-quote-btn" title="حكمة اليوم"><i class="fas fa-quote-right"></i></button>
+                </div>
+            </header>
+
+            <!-- Chat Section -->
+            <section id="chat-section" class="content-section active">
+                <div class="chat-wrapper">
+                    <div id="chat-box" class="chat-box">
+                        <!-- Messages will appear here -->
+                        <div class="message bot-message">
+                            <div class="message-content">
+                                👋 مرحباً! أنا Imma، رفيقك الذكي. أنا هنا للاستماع ودعمك. كيف تشعر اليوم؟
+                            </div>
+                            <span class="message-time">الآن</span>
+                        </div>
+                    </div>
+                    <div class="input-area">
+                        <div class="input-wrapper">
+                            <input type="text" id="user-input" placeholder="اكتب رسالتك هنا... (فضفض براحتك)" autocomplete="off">
+                            <button id="send-button"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Exercises Section -->
+            <section id="exercises-section" class="content-section">
+                <div class="section-header">
+                    <h2>تمارين الاسترخاء واليقظة</h2>
+                    <p>اختر تمريناً ليساعدك على الهدوء والتركيز.</p>
+                </div>
+                <div id="exercises-list" class="cards-grid">
+                    <!-- Exercises loaded via JS -->
+                    <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>
+                </div>
+            </section>
+
+            <!-- Worry Burner Section (NEW) -->
+            <section id="burner-section" class="content-section">
+                <div class="section-header">
+                    <h2>محارق الهموم</h2>
+                    <p>اكتب ما يثقل صدرك، ثم احرقه ليتحول إلى رماد وتولد منه الحكمة.</p>
+                </div>
+                <div class="burner-container">
+                    <div id="parchment-area" class="parchment">
+                        <textarea id="worry-input" placeholder="اكتب مخاوفك هنا... (مثلاً: أخاف من الفشل، أشعر بالوحدة...)"></textarea>
+                        <div id="fire-canvas-container">
+                            <canvas id="fire-canvas"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="burner-controls">
+                        <button id="burn-btn" class="btn-danger">
+                            <i class="fas fa-fire-alt"></i> إحراق الهموم
+                        </button>
+                    </div>
+
+                    <div id="phoenix-message" class="phoenix-card hidden">
+                        <div class="phoenix-icon">🦅</div>
+                        <h3>رسالة العنقاء</h3>
+                        <p id="phoenix-text"></p>
+                        <button id="reset-burner" class="btn-secondary">كتابة هم جديد</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Hope Jar Section -->
+            <section id="hope-jar-section" class="content-section">
+                <div class="section-header">
+                    <h2>جرة الأمل</h2>
+                    <p>احتفظ بلحظاتك السعيدة، وهز الجرة عندما تحتاج إلى ابتسامة.</p>
+                </div>
+                <div class="jar-container">
+                    <div class="jar" id="the-hope-jar">
+                        <div class="jar-lid"></div>
+                        <div class="jar-body">
+                            <div class="fireflies"></div>
+                        </div>
+                    </div>
+                    <div class="jar-controls">
+                        <button id="add-note-btn" class="btn-primary">
+                            <i class="fas fa-plus"></i> إضافة لحظة سعيدة
+                        </button>
+                        <button id="shake-jar-btn" class="btn-secondary">
+                            <i class="fas fa-sync-alt"></i> هز الجرة
+                        </button>
+                    </div>
+                    <div id="note-display" class="note-card hidden">
+                        <p id="note-content"></p>
+                        <span id="note-date"></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Calm Room Section -->
+            <section id="calm-room-section" class="content-section">
+                <div class="section-header">
+                    <h2>غرفة الهدوء</h2>
+                    <p>اصنع بيئتك المريحة وتنفس بعمق.</p>
+                </div>
+                
+                <div class="calm-room-layout">
+                    <div class="breathing-area">
+                        <div class="breathing-circle" id="breathing-circle">
+                            <span class="breath-text">تنفس</span>
+                        </div>
+                        <div class="breath-controls">
+                            <button id="start-breath-btn" class="btn-outline">ابدأ التمرين</button>
+                        </div>
+                    </div>
+
+                    <div class="sound-mixer">
+                        <h3>أصوات الطبيعة</h3>
+                        <div class="sound-control">
+                            <i class="fas fa-cloud-rain"></i>
+                            <input type="range" min="0" max="100" value="0" class="volume-slider" data-sound="rain">
+                        </div>
+                        <div class="sound-control">
+                            <i class="fas fa-tree"></i>
+                            <input type="range" min="0" max="100" value="0" class="volume-slider" data-sound="forest">
+                        </div>
+                        <div class="sound-control">
+                            <i class="fas fa-water"></i>
+                            <input type="range" min="0" max="100" value="0" class="volume-slider" data-sound="ocean">
+                        </div>
+                         <div class="sound-control">
+                            <i class="fas fa-fire"></i>
+                            <input type="range" min="0" max="100" value="0" class="volume-slider" data-sound="fire">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Progress Section -->
+            <section id="progress-section" class="content-section">
+                <div class="section-header">
+                    <h2>رحلتك</h2>
+                    <p>تابع تطورك وإنجازاتك.</p>
+                </div>
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <i class="fas fa-fire"></i>
+                        <h3 id="streak-stat">0</h3>
+                        <p>أيام التتابع</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-medal"></i>
+                        <h3 id="badges-count">0</h3>
+                        <p>أوسمة</p>
+                    </div>
+                </div>
+                <h3>سجل النشاط</h3>
+                <ul id="progress-list" class="progress-list">
+                    <!-- Progress items -->
+                </ul>
+            </section>
+
+            <!-- Resources Section -->
+            <section id="resources-section" class="content-section">
+                <div class="section-header">
+                    <h2>مصادر مفيدة</h2>
+                    <p>مقالات وأرقام تهمك.</p>
+                </div>
+                <div id="resources-list" class="cards-grid">
+                    <!-- Resources loaded via JS -->
+                </div>
+            </section>
+
+        </main>
+        
+        <!-- Overlay for mobile sidebar -->
+        <div class="overlay" id="overlay"></div>
+    </div>
+
+    <!-- Modal for Quote/Alerts -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Modal for Adding Hope Note -->
+    <div id="add-note-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-note-modal">&times;</span>
+            <h3>أضف لحظة سعيدة</h3>
+            <textarea id="hope-note-input" placeholder="اكتب شيئاً جعلك تبتسم اليوم..." rows="4" style="width: 100%; margin: 10px 0; padding: 10px; border-radius: 8px; border: 1px solid #ddd;"></textarea>
+            <button id="save-note-btn" class="btn-primary" style="width: 100%;">حفظ في الجرة</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
