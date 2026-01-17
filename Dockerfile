@@ -12,6 +12,6 @@ RUN pip install --no-cache-dir -r /app/requirements.txt
 
 COPY . /app
 
-EXPOSE ${PORT}
+EXPOSE 5000
 
-CMD ["gunicorn", "run:app", "--bind", "0.0.0.0:${PORT}", "--workers", "3"]
+CMD ["gunicorn", "run:app", "--bind", "0.0.0.0:5000", "--workers", "3"]
