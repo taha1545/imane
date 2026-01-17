@@ -1,0 +1,8 @@
+Flask>=2.0.0
+numpy>=1.20.0
+gunicorn>=20.0.0
+# soundfile  # Uncomment if audio features are needed
+# librosa    # Uncomment if audio analysis is needed
+google-generativeai
+requests
+python-dotenv
